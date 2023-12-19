@@ -1,5 +1,6 @@
 package com.example.layeredarchitecture.controller;
 
+import com.example.layeredarchitecture.dao.ItemDAO;
 import com.example.layeredarchitecture.dao.ItemDAOImpl;
 import com.example.layeredarchitecture.db.DBConnection;
 import com.example.layeredarchitecture.model.ItemDTO;
@@ -36,6 +37,9 @@ public class ManageItemsFormController {
     public TableView<ItemTM> tblItems;
     public TextField txtUnitPrice;
     public JFXButton btnAddNewItem;
+
+    static ItemDAO itemDAO=new ItemDAOImpl();
+
 
     public void initialize() {
         tblItems.getColumns().get(0).setCellValueFactory(new PropertyValueFactory<>("code"));
@@ -175,8 +179,8 @@ public class ManageItemsFormController {
                 if (existItem(code)) {
                     new Alert(Alert.AlertType.ERROR, code + " already exists").show();
                 }
-                //Save Item
-                boolean saved = itemDAO.saveItem(code, description, unitPrice, qtyOnHand);
+                //Save It
+                boolean saved = itemDAO.saveItem(code,description,unitPrice,qtyOnHand);
             } catch (SQLException e) {
                 new Alert(Alert.AlertType.ERROR, e.getMessage()).show();
             } catch (ClassNotFoundException e) {
@@ -196,6 +200,11 @@ public class ManageItemsFormController {
                 selectedItem.setQtyOnHand(qtyOnHand);
                 selectedItem.setUnitPrice(unitPrice);
                 tblItems.refresh();
+/*
+                ItemDAOImpl itemDAO=new ItemDAOImpl();
+*/
+                boolean  isUpdated=itemDAO.updateItem(new ItemDTO());
+
             } catch (SQLException e) {
                 new Alert(Alert.AlertType.ERROR, e.getMessage()).show();
             } catch (ClassNotFoundException e) {
@@ -205,6 +214,7 @@ public class ManageItemsFormController {
 
         btnAddNewItem.fire();
     }
+
 
 
     private boolean existItem(String code) throws SQLException, ClassNotFoundException {

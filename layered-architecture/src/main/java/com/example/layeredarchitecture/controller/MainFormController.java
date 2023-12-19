@@ -118,7 +118,7 @@ public class MainFormController {
                     break;
                 case "imgOrder":
                     root = FXMLLoader.load(this.getClass().getResource("/com/example/layeredarchitecture/place-order-form.fxml"));
-                    break;
+                   break;
                 case "imgViewOrders":
                     root = null;
                     break;
